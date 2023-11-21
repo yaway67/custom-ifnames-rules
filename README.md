@@ -1,7 +1,7 @@
 # custom-ifnames-rules
 As it is currently written, it will only add ens[100] thru ens[999].  This was
 created in an ESXi environment, thus all of the NICs assigned fall in the above
-naming convention.  The 'when' condition should be able to be adjust to meet 
+naming convention.  The 'when' condition should be able to be adjusted to meet 
 your requirements.
 
 Syntax:
@@ -10,6 +10,7 @@ ansible-playbook -i <INVENTORY_FILE> generate_udev_custom_ifnames.yml -b
 
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+<<<<<<< HEAD
 ---
 - hosts: all
 
@@ -95,3 +96,5 @@ Syntax:
         src: "{{ mytmpfile }}"
         dest: downloaded/
         flat: true       
+=======
+>>>>>>> f304bd0277ad3930d185e272968406e93e22dc2a
