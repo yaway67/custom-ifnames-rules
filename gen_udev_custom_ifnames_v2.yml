@@ -18,7 +18,7 @@
 - hosts: localhost
   become: false
 
-  # I'm a bit anal and want any file generated with a timestamp to all have the same timestamp.
+  # I'm a bit anal and want any file generated with a timestamp to all have the same timestamp.  If this is not done, each server will generate the variable based on when it's executed on the server.
   pre_tasks:
     - set_fact: 
         mydate: "{{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}_{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}{{ ansible_date_time.second }}"
