@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  become: false
+
+  # I'm a bit anal and want any file generated with a timestamp to all have the same timestamp.  If this is not done, each server will generate the variable based on when it's executed on the server.
+  pre_tasks:
+    - set_fact: 
+        mydate: "{{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}_{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}{{ ansible_date_time.second }}"
+
+- name: check systemd version for rhel7
+  hosts: all
+  vars:
+    mydate: "{{ hostvars['localhost']['mydate'] }}"
+    mytmpfile: "/tmp/{{ ansible_hostname }}_{{ mydate }}"
+
+  tasks:
+  - name: Check systemd
+    ansible.builtin.shell:
+      cmd: rpm -qa | grep systemd-219 | tee {{ mytmpfile }}
+    when: ansible_distribution_major_version == "7"
+    notify: retrieve a copy of the file
+
+  handlers:
+    - name: retrieve a copy of the file
+      ansible.builtin.fetch:
+        src: "{{ mytmpfile }}"
+        dest: mysystemd/
+        flat: true       
